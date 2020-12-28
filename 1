@@ -1,0 +1,133 @@
+#include <iostream>
+
+using namespace std;
+
+class Node
+{
+public:
+    int value;
+    Node *left;
+    Node *right;
+
+    Node();
+    Node(int value, Node *left = nullptr, Node *right = nullptr);
+    Node(Node &node);
+};
+
+Node::Node()
+{
+    this->value = 0;
+    this->left = nullptr;
+    this->right = nullptr;
+}
+
+Node::Node(int value, Node *left, Node *right)
+{
+    this->value = value;
+    this->left = left;
+    this->right = right;
+}
+
+Node::Node(Node &node)
+{
+    this->value = node.value;
+    this->left = node.left;
+    this->right = node.right;
+}
+
+
+
+class Tree
+{
+public:
+    Node *root;
+    Tree();
+    Tree(Node *node);
+    void insert_rec(int value, Node *node);
+	void insert(int value);
+    int sum(int *res, Node *node);
+};
+
+int Tree::sum (int *res, Node *node)
+{
+    if (node == nullptr)
+        return *res;
+    *res += node->value;
+    cout << node->value << " ";
+    sum(res, node->left);
+    sum(res, node->right);
+    return *res;
+}
+
+Tree::Tree()
+{
+    root = nullptr;
+}
+
+Tree::Tree(Node *node)
+{
+    root = node;
+}
+
+void Tree::insert_rec(int value, Node *node)
+{
+    if (!node)
+    {
+        Node *n = new Node(value);
+        root = n;
+        return;
+    }
+    if (value > node->value)
+    {
+        if (node->right == nullptr)
+        {
+            Node *n = new Node(value);
+            node->right = n;
+        }
+        else
+        {
+            insert_rec(value, node->right);
+        }
+    }
+    else if (value < node->value)
+    {
+        if (node->left == nullptr)
+        {
+            Node *n = new Node(value);
+            node->left = n;
+        }
+        else
+        {
+            insert_rec(value, node->left);
+        }
+    }
+}
+
+void Tree::insert(int value)
+{
+	Node *node = new Node(value);
+    Node *prev = root;
+    Node *cur = root;
+	
+    if (!root)
+        root = node;
+    else
+    {
+        while (cur)
+        {
+            prev = cur;
+            if (value > cur->value)
+                cur = cur->right;
+			else if (value < cur->value)
+                cur = cur->left;
+            else
+                break;
+        }
+        if (value > prev->value)
+            prev->right = node;
+        else if (value < prev->value)
+            prev->left = node;
+    }
+}
+
+

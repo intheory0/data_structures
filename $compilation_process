@@ -1,0 +1,29 @@
+// Compile Process
+// main.c   add.c   node.c
+//   |		 |		 |
+//   V		 V		 V
+// 		preprocessing (gcc -E main.c -o full_code_main.c)
+//   |		 |		 |
+//   V		 V		 V
+// full_code_main.c
+//   |		 |		 |
+//   V		 V		 V
+//		Compile (gcc -S full_code_main -o main.asm)
+//   |		 |		 |
+//   V		 V		 V
+// main.asm
+//   |		 |		 |
+//   V		 V		 V
+//		Assembler (gcc -c main.c -o main.o)
+//   |		 |		 |
+//   V		 V		 V
+// main.o   add.o   node.o
+//   |		 |		 |
+//    \		 |		/
+//     \	 |	   /
+//      \	 |    /
+//       \	 |   /
+//		  Linker (компоновщик) <------- LIBS
+//   		 |
+//   		 |
+//   		exe (binary)
